@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Auth;
 class ThreadController extends Controller
 {
 
-  /**  function __construct()
+    function __construct()
     {
         return $this->middleware('auth')->except('index');
     }
-   */
+
 
     /**
      * Display a listing of the resource.
@@ -48,7 +48,8 @@ class ThreadController extends Controller
         $this->validate($request,[
            'subject'=>'required|min:10',
             'type'=>'required',
-            'thread'=>'required|min:20'
+            'thread'=>'required|min:10',
+            'g-recaptcha-response' => 'required|captcha'
         ]);
 
         //store

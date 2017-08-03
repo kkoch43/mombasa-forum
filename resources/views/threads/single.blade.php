@@ -7,7 +7,7 @@
     <hr>
 
     <div class="thread-details">
-        {{$thread->thread}}
+        {!! \Michelf\Markdown::defaultTransform($thread->thread)!!}
     </div>
 
     <br>
