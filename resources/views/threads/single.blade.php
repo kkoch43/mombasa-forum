@@ -11,6 +11,8 @@
     </div>
 
     <br>
+@if(Auth::check())
+    @if(Auth::user()->id == $thread->user_id)
 
     <div class="action">
         <a href="{{route('thread.edit', $thread->id)}}" class="btn btn-info btn-xs">Edit</a>
@@ -23,6 +25,11 @@
         </form>
 
     </div>
+        @endif
+
+
+
+    @endif
 
 
 

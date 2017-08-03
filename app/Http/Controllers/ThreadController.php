@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ThreadController extends Controller
 {
+
+  /**  function __construct()
+    {
+        return $this->middleware('auth')->except('index');
+    }
+   */
+
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +52,8 @@ class ThreadController extends Controller
         ]);
 
         //store
-        Thread::create($request->all());
+        Auth::user()->threads()->create($request->all());
+
         //redirect
         return back()->withMessage('Thread Created');
     }
@@ -80,12 +89,19 @@ class ThreadController extends Controller
      */
     public function update(Request $request, Thread $thread)
     {
+
+        if(Auth::user()->id  !== $thread->user_id){
+            abort(401,"unauthorized");
+    }
+
         //validate
         $this->validate($request,[
             'subject'=>'required|min:10',
             'type'=>'required',
             'thread'=>'required|min:20'
         ]);
+
+
 
         //update
         $thread->update($request->all());
@@ -95,12 +111,17 @@ class ThreadController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     *log
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
     public function destroy(Thread $thread)
     {
+
+        if(Auth::user()->id  !== $thread->user_id){
+            abort(401,"unauthorized");
+        }
+
         $thread->delete();
 
         return redirect()->route('thread.index')->withMessage('Thread Deleted');
