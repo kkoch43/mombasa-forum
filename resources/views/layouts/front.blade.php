@@ -11,6 +11,8 @@
 </head>
 
 <body>
+
+
 @include('layouts.partials.navbar')
 
 @yield('banner')
@@ -21,10 +23,14 @@
 
 
     <div class="row">
+        @include('layouts.partials.errors')
+        @include('layouts.partials.success')
 
         @section('category')
         {{--//category section--}}
 @include('layouts.partials.categories')
+
+
         @show
 
 

@@ -4,8 +4,7 @@
 
 @section('content')
 
-   @include('layouts.partials.errors')
-   @include('layouts.partials.success')
+
 
 
     <div class="row">
