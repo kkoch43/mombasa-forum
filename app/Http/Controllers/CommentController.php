@@ -24,6 +24,20 @@ class CommentController extends Controller
 }
 
 
+    public function addReplyComment(Request $request, Comment $comment){
+        $this->validate($request,[
+            'body'=>'required'
+        ]);
+
+        $reply = new Comment();
+        $reply->body = $request->body;
+        $reply->user_id = Auth::user()->id;
+
+        $comment->comments()->save($reply);
+
+        return back()->withMessage('Reply Created');
+    }
+
 
 
 
@@ -43,7 +57,7 @@ class CommentController extends Controller
 
         if($comment->user_id !== Auth::user()->id)
             abort('401');
-        
+
         $this->validate($request,[
             'body'=>'required'
         ]);
