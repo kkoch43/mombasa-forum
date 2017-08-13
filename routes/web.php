@@ -28,3 +28,6 @@ Route::post('comment/create/{thread}', 'CommentController@addThreadComment')->na
 
 Route::post('reply/create/{comment}', 'CommentController@addReplyComment')->name('replycomment.store');
 
+Route::post('/thread/mark-as-solution}', 'ThreadController@markAsSolution')->name('markAsSolution');
+
+
