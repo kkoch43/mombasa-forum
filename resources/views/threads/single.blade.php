@@ -50,14 +50,21 @@
                 @endif
 
         @else
+            @if(Auth::check())
+            @if(Auth::user()->id == $thread->user_id)
 
             {{--//solution--}}
-        <form action="{{route('markAsSolution')}}" method="post">
-            {{csrf_field()}}
-            <input type="hidden" name="threadId" value="{{$thread->id}}">
-            <input type="hidden" name="solutionId" value="{{$comment->id}}">
-            <input type="submit" class="btn btn-success pull-right" id="{{$comment->id}}" value="Mark as solution">
-        </form>
+        {{--<form action="{{route('markAsSolution')}}" method="post">--}}
+            {{--{{csrf_field()}}--}}
+            {{--<input type="hidden" name="threadId" value="{{$thread->id}}">--}}
+            {{--<input type="hidden" name="solutionId" value="{{$comment->id}}">--}}
+            {{--<input type="submit" class="btn btn-success pull-right" id="{{$comment->id}}" value="Mark as solution">--}}
+        {{--</form>--}}
+
+                <div  class="btn btn-success pull-right" onclick="markAsSolution('{{$thread->id}}', '{{$comment->id}}', this)">Mark as solution</div>
+
+                @endif
+                @endif
 
         @endif
             <lead>{{$comment->user->name}}</lead>
@@ -206,6 +213,15 @@
     <script>
         function toggleReply(commentId){
             $('.reply-form-'+commentId).toggleClass('hidden');
+        }
+    </script>
+
+    <script>
+        function markAsSolution(threadId, solutionId, elem) {
+            var csrfToken= '{{csrf_token()}}';
+            $.post('{{route('markAsSolution')}}', {solutionId: solutionId, threadId: threadId,_token:csrfToken}, function (data){
+                $(elem).text('Solution');
+            });
         }
     </script>
 
