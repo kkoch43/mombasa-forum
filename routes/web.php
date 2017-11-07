@@ -30,4 +30,7 @@ Route::post('reply/create/{comment}', 'CommentController@addReplyComment')->name
 
 Route::post('/thread/mark-as-solution}', 'ThreadController@markAsSolution')->name('markAsSolution');
 
+Route::post('comment/like', 'LikeController@toggleLike')->name('toggleLike');
+//dddddd
+
 

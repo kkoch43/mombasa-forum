@@ -72,6 +72,8 @@
 
         <div class="action">
 
+            <button class="btn btn-default btn-xs">{{$comment->likes()->count()}}</button>
+            <button  class="btn btn-default btn-xs {{$comment->isLiked()?"liked":""}}" onclick="likeIt('{{$comment->id}}', this)">Like<span class="glyphicon glyphicon-heart "></span></button>
         <a class="btn btn-primary btn-xs" data-toggle="modal" href="#{{$comment->id}}">Edit</a>
         <div class="modal fade" id="{{$comment->id}}">
             <div class="modal-dialog">
@@ -222,6 +224,26 @@
             $.post('{{route('markAsSolution')}}', {solutionId: solutionId, threadId: threadId,_token:csrfToken}, function (data){
                 $(elem).text('Solution');
             });
+        }
+    </script>
+
+    <script>
+        function likeIt(commentId, elem) {
+            var csrfToken = '{{csrf_token()}}';
+            $.post('{{route('toggleLike')}}', {commentId: commentId, _token: csrfToken}, function (data) {
+                console.log(data);
+                if(data.message=='liked'){
+                    $(elem).addClass('liked');
+                //$(elem).css({color: 'red'});
+            }else
+            {
+                $(elem).removeClass('liked');
+               // $(elem).css({color: 'black'});
+            }
+            });
+
+
+
         }
     </script>
 
